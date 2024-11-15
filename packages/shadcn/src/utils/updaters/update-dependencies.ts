@@ -24,7 +24,7 @@ export async function updateDependencies(
     ...options,
   }
 
-  const dependenciesSpinner = spinner(`Installing dependencies.`, {
+  const dependenciesSpinner = spinner(`Skipping dependencies.`, {
     silent: options.silent,
   })?.start()
   const packageManager = await getPackageManager(config.resolvedPaths.cwd)
@@ -56,16 +56,13 @@ export async function updateDependencies(
   dependenciesSpinner?.start()
 
   await execa(
-    packageManager,
-    [
-      packageManager === "npm" ? "install" : "add",
-      ...(packageManager === "npm" && flag ? [`--${flag}`] : []),
-      ...dependencies,
-    ],
+    "npm",
+    ["pkg", "set", ...dependencies.map((dep) => `dependencies.${dep}=latest`)],
     {
       cwd: config.resolvedPaths.cwd,
     }
   )
+
   dependenciesSpinner?.succeed()
 }
 
