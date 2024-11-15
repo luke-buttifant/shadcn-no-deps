@@ -1,4 +1,6 @@
-# shadcn
+# shadcn no deps
+
+Initialise shadcn without installing deps, Useful for code generators 
 
 A CLI for adding components to your project.
 
